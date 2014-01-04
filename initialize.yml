@@ -1,0 +1,8 @@
+---
+- hosts: all
+  user: root
+  vars:
+    initialize: true
+  roles:
+    - common
+    - apache
