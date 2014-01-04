@@ -2,7 +2,7 @@
 - hosts: all
   user: root
   vars:
-    clean: true
+    cleanup: true
   roles:
     - common
-    - apache
+    - ca

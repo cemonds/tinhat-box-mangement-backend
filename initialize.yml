@@ -6,4 +6,5 @@
     hostname: "INVALID_HOSTNAME"
   roles:
     - common
+    - ca
     - apache
