@@ -3,6 +3,7 @@
   user: root
   vars:
     initialize: true
+    hostname: "INVALID_HOSTNAME"
   roles:
     - common
     - apache

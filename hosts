@@ -1,1 +1,2 @@
-127.0.0.1
+[targets]
+localhost	ansible_connection=local	initialize=false	cleanup=false
