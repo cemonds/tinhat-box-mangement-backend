@@ -1,0 +1,23 @@
+---
+- name: Install apache2
+  apt: name=apache2 state=present
+
+- name: Copy apache2 non SSL host with redirect configuration
+  template: src=default.j2 dest=/etc/apache2/sites-available/default
+  notify: restart apache2
+
+- name: Copy apache2 SSL host configuration
+  template: src=default-ssl.j2 dest=/etc/apache2/sites-available/default-ssl
+  notify: restart apache2
+
+- name: Enable non SSL host
+  command: a2ensite default 
+  notify: restart apache2
+
+- name: Enable SSL host
+  command: a2ensite default-ssl
+  notify: restart apache2
+
+- name: Enable SSL Module
+  command: a2enmod ssl
+  notify: restart apache2

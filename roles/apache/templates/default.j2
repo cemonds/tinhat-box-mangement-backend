@@ -1,0 +1,5 @@
+<VirtualHost *:80>
+        ServerAdmin admin@{{ hostname }}
+	RedirectMatch ^/(.*)$ https://{{ hostname }}/$1
+</VirtualHost>
+
