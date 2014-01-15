@@ -1,0 +1,27 @@
+---
+- name: Generate certification request
+  command: openssl req -newkey {{ certificates_key_type }} -nodes -subj "/C=/ST=/L=/O=/CN={{ certificate_name }}" -days {{ certificates_validity_days }} -keyout {{ certificates_directory }}/{{ certificate_name }}.key -out {{ certificates_directory }}/{{ certificate_name }}.req creates={{ certificates_directory }}/{{ certificate_name }}.req
+  tags: 
+    - initialize
+
+- name: Sign the certification request to create certificate
+  command: openssl x509 -out {{ certificates_directory }}/{{ certificate_name }}.pem -req -in {{ certificates_directory }}/{{ certificate_name }}.req -CAkey {{ ca_key }} -CA {{ ca_certificate }} -CAserial {{ ca_serial_file }} -CAcreateserial creates={{ certificates_directory }}/{{ certificate_name }}.pem
+  tags: 
+    - initialize
+
+- name: Delete certification request 
+  file: name={{ certificates_directory }}/{{ certificate_name }}.req state=absent
+  tags: 
+    - initialize
+
+- name: Link certificate to symlink 
+  file: path={{ certificate_link }} src={{ certificates_directory }}/{{ certificate_name }}.pem state=link
+  when: certificate_link
+
+- name: Delete Certification Authority of this host
+  file: path={{ item }} state=absent
+  with_items:
+    - "{{ certificates_directory }}/{{ certificate_name }}.key"
+    - "{{ certificates_directory }}/{{ certificate_name }}.pem"
+  tags: 
+    - cleanup

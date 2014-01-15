@@ -1,0 +1,9 @@
+---
+certificates_directory: /etc/ssl/private
+ca_serial_file: /etc/ssl/serial
+ca_certificate: /etc/ssl/private/ca.pem
+ca_key: /etc/ssl/private/ca.key
+ca_key_type: "rsa:4096"
+ca_validity_days: 3650
+certificates_key_type: "rsa:4096"
+certificates_validity_days: 730

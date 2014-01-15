@@ -1,0 +1,3 @@
+---
+dependencies:
+  - { role: tls_certificate, certificate_name: "{{ fully_qualified_domain_name }}"}
