@@ -1,2 +1,2 @@
 [targets]
-localhost	ansible_connection=local	initialize=false	cleanup=false
+localhost	ansible_connection=local

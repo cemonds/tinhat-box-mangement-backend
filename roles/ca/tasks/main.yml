@@ -3,15 +3,8 @@
   apt: name=openssl state=present
 
 - name: Ensure certificates directory exists
-  file: path=/etc/ssl/private state=directory
+  file: path={{ certificates_directory }} state=directory
 
 - name: Generate Certification Authority for this host
-  command: openssl req -newkey rsa:4096 -nodes -x509 -days 3650 -subj "/C=/ST=/L=/O=/CN={{ ansible_fqdn }}" -days 3650 -keyout /etc/ssl/private/ca.key -out /etc/ssl/private/ca.pem -outform PEM 
-  when: initialize
+  command: openssl req -newkey {{ ca_key_type }} -nodes -x509 -subj "/C=/ST=/L=/O=/CN=CA of {{ fully_qualified_domain_name  }}" -days {{ ca_validity_days }}  -keyout {{ ca_key }} -out {{ ca_certificate }} -outform PEM creates={{ ca_certificate }}
 
-- name: Delete Certification Authority of this host
-  file: path={{ item }} state=absent
-  with_items:
-    - /etc/ssl/private/ca.pem
-    - /etc/ssl/private/ca.key
-  when: cleanup
